@@ -1,0 +1,94 @@
+@media screen and (max-width: 426px) {
+
+  #blue_bar {
+    width: 800px;
+  }
+
+  #bar {
+    width: 820px;
+  }
+
+
+  /* #profile_pic {
+    width: 250px;
+  }
+
+  #friends_bar {
+    display: none;
+  }
+
+  #intro_bar {
+    display: none;
+  }
+
+  #photos_bar {
+    display: none;
+  }
+
+  #menu_buttons {
+    display: none;
+  }
+
+  #blue_bar {
+    width: 800px;
+  }
+
+  #search_box{
+
+    width: 400px;
+    height: 20px;
+    border-radius: 20px;
+    border: none;
+    padding: 4px;
+    font-size: 14px;
+    background-image: url(images/search.png);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 375px;
+    outline: none;
+  }
+
+  #small_menu{
+    display: block;
+  }
+
+  #profile_pic_home {
+    display: none;
+  }
+
+  #home_username {
+    display: none;
+  }
+
+  .username {
+    font-size: 30px;
+  }
+
+  .change_image {
+    font-size: 16px;
+  }
+
+  #tag_name {
+    font-size: 15px;
+  }
+
+  .textbox_area {
+    flex: auto;
+    position: relative;
+    right: 35px;
+  }
+
+  #autoresizing {
+    font-size: 20px;
+  }
+
+  #post_button {
+    font-size: 18px;
+  }
+
+  .post_text {
+    font-size: 20px;
+  } */
+
+
+}

@@ -1,0 +1,89 @@
+<?php
+
+include("classes/autoload.php");
+
+  $login = new Login();
+  $_SESSION['mybook_userid'] = isset($_SESSION['mybook_userid']) ? $_SESSION['mybook_userid'] : 0;
+
+  $user_data = $login->check_login($_SESSION['mybook_userid'],false);
+
+  $USER = $user_data;
+
+  if(isset($URL[1])){
+
+    $profile = new Profile();
+    $profile_data = $profile->get_profile($URL[1]);
+
+    if(is_array($profile_data)){
+      $user_data = $profile_data[0];
+    }
+
+  }
+
+  $group_name = "";
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST')
+  {
+
+      $group = new Group();
+      $result = $group->evaluate($_POST);
+
+      if($result != "")
+      {
+
+        echo "<div style='text-align:center;font-size:12px;color:white;background-color:grey;'>";
+        echo "The following errors occured:<br><br>";
+        echo $result;
+        echo "</div>";
+      }else
+      {
+
+        header("Location:" . ROOT . "profile/".$_SESSION['mybook_userid']. "/groups");
+        die;
+      }
+
+
+      $group_name = $_POST['group_name'];
+
+
+  }
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Create Group | Sociacube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <style media="screen">
+    <?php include 'css/main.css'; ?>
+    <?php include 'css/responsive.css'; ?>
+  </style>
+
+  <body style="font-family: tahoma;background-color: #e9ebee;">
+
+    <?php include("header.php"); ?>
+
+    <div id="bar2">
+
+      Create Group<br><br>
+
+      <form method="post" action="">
+
+          <input value="<?php echo $group_name ?>" name="group_name" type="text" id="text" placeholder="Group Name" autofocus required><br><br>
+
+          <select id="text" name="group_type">
+            <option>Public</option>
+            <option>Private</option>
+          </select><br>
+          <br>
+          <input type="submit" id="button" value="Create">
+          <br><br><br>
+
+    </form>
+  </body>
+</html>
