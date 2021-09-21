@@ -4,14 +4,9 @@ class Database
 {
 
   private $host = "localhost";
-  private $username = "root";
-  private $password = "Churchie0423";
-  private $db = "mybook_db";
-
-  //   private $host = "localhost";
-  //   private $username = "id17528755_root";
-  //   private $password = "1YK1u)%MD>zvn}qT";
-  //   private $db = "id17528755_sociacube_db";
+  private $username = "username";
+  private $password = "password";
+  private $db = "db_name";
 
   function connect()
   {
