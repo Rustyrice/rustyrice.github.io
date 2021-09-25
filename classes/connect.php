@@ -8,11 +8,19 @@ class Database
   private $password = "password";
   private $db = "db_name";
 
-  function connect()
+   function connect()
   {
 
-    $connection = mysqli_connect($this->host, $this->username, $this->password, $this->db);
-    return $connection;
+    try {
+        $conn = new PDO("mysql:host=".$this->host.";dbname=".$this->db, $this->username, $this->password);
+       
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected to DB Successfully. ";
+        
+    } catch (PDOException $e) {
+        echo "Connection to DB failed: " . $e;
+       
+    }
   }
 
   function read($query)
