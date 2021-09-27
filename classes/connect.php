@@ -6,23 +6,17 @@ class Database
   private $host = "localhost";
   private $username = "username";
   private $password = "password";
-  private $db = "db_name";
+  private $db = "db_name;
 
-   function connect()
-  {
-
-    try {
-        $conn = new PDO("mysql:host=".$this->host.";dbname=".$this->db, $this->username, $this->password);
-       
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected to DB Successfully. ";
-        return $conn;
-      
-    } catch (PDOException $e) {
-        echo "Connection to DB failed: " . $e;
-       
-    }
-  }
+  function connect()
+{
+	$conn = mysqli_connect($this->host, $this->username, $this->password, $this->db);
+	// Check connection
+	if (mysqli_connect_errno()) {
+	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
+	return $conn;
+}
 
   function read($query)
   {
