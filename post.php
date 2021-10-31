@@ -1,4 +1,4 @@
-	<div id="post_bar_home">
+		<div id="post_bar_home">
 		<div>
 
 			<?php
@@ -65,7 +65,7 @@
 				$ext = pathinfo($ROW['image'], PATHINFO_EXTENSION);
 				$ext = strtolower($ext);
 
-				if ($ext == "jpeg" || $ext == "jpg" || $ext == "png") {
+				if ($ext == "jpeg" || $ext == "jpg") {
 
 					$post_image = $image_class->get_thumb_post($ROW['image']);
 
@@ -74,7 +74,7 @@
 					echo "</a>";
 				} elseif ($ext == "mp4") {
 
-					echo "<video controls loop autoplay muted style='width:100%;border-radius:10px;max-height:500px;' >
+					echo "<video controls loop autoplay muted style='width:100%;border-radius:10px;max-height:500px;outline:none;' >
 							<source src='" . ROOT . "$ROW[image]' type='video/mp4' >
 						</video>";
 				}
@@ -84,15 +84,34 @@
 
 			<br><br>
 			<?php
-			$likes = "";
+			$like_color = "#626a70cf";
+			$i_liked = false;
 
-			$likes = ($ROW['likes'] > 0) ? "(" . $ROW['likes'] . ")" : "";
+			if (isset($_SESSION['mybook_userid'])) {
 
+				$DB = new Database();
+
+				$sql = "select likes from likes where type='post' && contentid = '$ROW[postid]' limit 1";
+				$result = $DB->read($sql);
+				if (is_array($result)) {
+
+					$likes = json_decode($result[0]['likes'], true);
+
+					$user_ids = array_column($likes, "userid");
+
+					if (in_array($_SESSION['mybook_userid'], $user_ids)) {
+						$i_liked = true;
+					}
+				}
+			}
+
+			if ($i_liked) {
+				$like_color = "#1877f2";
+			}
 			?>
-			<!--<a onclick="like_post(event)" href="<?= ROOT ?>like/post/<?php echo $ROW['postid'] ?>" style="text-decoration:none;color:blue;">Like<?php echo $likes ?></a>-->
 			<!--like button-->
 			<a onclick="like_post(event)" href="<?= ROOT ?>like/post/<?php echo $ROW['postid'] ?>" style="text-decoration:none;float:left;position:relative;top:2px;">
-				<svg id="icon_like" width="22" height="22" viewBox="0 0 24 24">
+				<svg id="icon_like" fill="<?= $Like_color ?>" width="22" height="22" viewBox="0 0 24 24">
 					<path d="M21.216 8h-2.216v-1.75l1-3.095v-3.155h-5.246c-2.158 6.369-4.252 9.992-6.754 10v-1h-8v13h8v-1h2l2.507 2h8.461l3.032-2.926v-10.261l-2.784-1.813zm.784 11.225l-1.839 1.775h-6.954l-2.507-2h-2.7v-7c3.781 0 6.727-5.674 8.189-10h1.811v.791l-1 3.095v4.114h3.623l1.377.897v8.328z" />
 				</svg>
 			</a>
@@ -117,7 +136,7 @@
 				$post = new Post();
 
 				if (i_own_content($ROW)) {
-					//edit and delete button
+					// edit and delete button
 					echo "
 					<a href='" . ROOT . "edit/$ROW[postid]' style='text-decoration:none;margin:10px;'>
 						<svg id='icon_edit' width='21' height='21' viewBox='0 0 24 24'><path d='M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z'/></svg>
@@ -247,14 +266,5 @@
 			data.link = link;
 			data.action = "like_post";
 			ajax_send(data, e.currentTarget);
-		}
-
-		// Select the SVG icon
-		const likeIcon = document.getElementById('icon_like');
-
-		// Check if current user liked this post or not
-		if (obj.isLiked === true) {
-			// In that case, we'll add the class we created to the SVG to make it blue
-			likeIcon.classList.add('liked');
 		}
 	</script>
